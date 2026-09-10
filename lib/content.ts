@@ -440,7 +440,7 @@ export const contactInfo = {
   phone: "+54 11 6455-0358",
   github: "https://github.com/jaimerandle",
   githubLabel: "github.com/jaimerandle",
-  linkedin: "https://linkedin.com/in/jaimerandle",
-  linkedinLabel: "linkedin.com/in/jaimerandle",
+  linkedin: "https://linkedin.com/in/jaimerandlee",
+  linkedinLabel: "linkedin.com/in/jaimerandlee",
   resume: "/Jaime_Randle_CV.pdf",
 };
