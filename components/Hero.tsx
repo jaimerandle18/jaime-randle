@@ -174,17 +174,18 @@ export function Hero() {
               priority
               className="relative h-auto w-full object-cover"
             />
-            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between rounded-xl glass px-3.5 py-2.5 shadow-soft">
-              <div>
-                <p className="font-display text-sm font-bold leading-none">
+            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2 rounded-xl glass px-3.5 py-2.5 shadow-soft">
+              <div className="min-w-0">
+                <p className="font-display text-sm font-bold leading-none text-ink">
                   {t(ui.hero.role)}
                 </p>
-                <p className="mt-1 text-[11px] text-muted">
+                <p className="mt-1 truncate text-[11px] font-medium text-ink-soft">
                   Pulppo · ex-Santander
                 </p>
               </div>
-              <span className="rounded-lg bg-mint-wash px-2 py-1 text-[10px] font-bold text-mint">
-                ● {t(ui.hero.available)}
+              <span className="hidden shrink-0 items-center gap-1 rounded-lg bg-mint-wash px-2 py-1 text-[10px] font-bold text-mint sm:inline-flex">
+                <span className="h-1.5 w-1.5 rounded-full bg-mint" />
+                {t(ui.hero.available)}
               </span>
             </div>
           </div>
