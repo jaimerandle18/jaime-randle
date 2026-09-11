@@ -141,7 +141,7 @@ export function ThemeReveal() {
         onPointerMove={onMove}
         onPointerUp={onUp}
         onPointerCancel={onUp}
-        className="group fixed top-1/2 z-[80] flex h-16 w-8 -translate-y-1/2 touch-none cursor-ew-resize items-center justify-center rounded-xl border border-line bg-card/95 text-ink-soft shadow-lift backdrop-blur hover:text-ink"
+        className="group fixed top-1/2 z-[80] hidden h-16 w-8 -translate-y-1/2 touch-none cursor-ew-resize items-center justify-center rounded-xl border border-line bg-card/95 text-ink-soft shadow-lift backdrop-blur hover:text-ink md:flex"
         style={{
           left: handleLeft,
           transition: dragging

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { useLang } from "./LanguageProvider";
+import { useTheme } from "./ThemeProvider";
 import { ui, contactInfo } from "@/lib/content";
 
 const links = [
@@ -15,6 +16,7 @@ const links = [
 
 export function Nav() {
   const { t, locale, toggle } = useLang();
+  const { dark, setDark } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -58,6 +60,13 @@ export function Nav() {
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => setDark(!dark)}
+            aria-label="Toggle dark mode"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-line bg-card text-ink-soft transition-colors hover:border-lav/40 hover:text-ink md:hidden"
+          >
+            {dark ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
           <button
             onClick={toggle}
             aria-label="Toggle language"
