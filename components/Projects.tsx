@@ -24,6 +24,7 @@ import {
   accentBg,
   accentWash,
   accentSoftBg,
+  accentBorder,
   accentHex,
 } from "@/lib/accents";
 
@@ -255,6 +256,61 @@ function Coverflow({ onOpen }: { onOpen: (p: Project) => void }) {
   );
 }
 
+/** Clean vertical stack used on phones instead of the 3D coverflow. */
+function ProjectStack({ onOpen }: { onOpen: (p: Project) => void }) {
+  const { t } = useLang();
+  return (
+    <div className="flex flex-col gap-5">
+      {projects.map((p) => (
+        <button
+          key={p.id}
+          onClick={() => onOpen(p)}
+          className="group w-full overflow-hidden rounded-3xl border border-line bg-card text-left shadow-soft transition-transform active:scale-[0.99]"
+        >
+          <div className={`relative aspect-[16/10] overflow-hidden ${accentWash[p.accent]}`}>
+            <Preview project={p} />
+            <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-card/90 px-2.5 py-1 text-[11px] font-semibold shadow-soft backdrop-blur">
+              <span
+                className={`h-1.5 w-1.5 rounded-full ${
+                  p.statusTone === "live" ? "bg-mint" : "bg-gold"
+                }`}
+              />
+              {t(p.status)}
+            </div>
+          </div>
+          <div className="p-5">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-display text-lg font-bold tracking-tight">
+                {p.name}
+              </h3>
+              <span className="text-xs font-medium text-muted">{p.year}</span>
+            </div>
+            <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">
+              {t(p.tagline)}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {p.stack.slice(0, 4).map((s) => (
+                <span
+                  key={s}
+                  className={`rounded-md border ${accentBorder[p.accent]} ${accentWash[p.accent]} px-2 py-0.5 text-[11px] font-medium ${accentText[p.accent]}`}
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+            <span
+              className={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold ${accentText[p.accent]}`}
+            >
+              {t(ui.work.viewCase)}
+              <ArrowUpRight size={15} />
+            </span>
+          </div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function Modal({ project, onClose }: { project: Project; onClose: () => void }) {
   const { t } = useLang();
 
@@ -414,8 +470,12 @@ export function Projects() {
           </p>
         </SectionHeader>
 
-        <Reveal className="mt-14">
+        {/* desktop: 3D coverflow · mobile: clean vertical stack */}
+        <Reveal className="mt-14 hidden md:block">
           <Coverflow onOpen={(p) => setActive(p)} />
+        </Reveal>
+        <Reveal className="mt-10 md:hidden">
+          <ProjectStack onOpen={(p) => setActive(p)} />
         </Reveal>
       </div>
 
