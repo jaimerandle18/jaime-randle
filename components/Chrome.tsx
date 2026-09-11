@@ -1,46 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useInView,
-  animate,
-} from "framer-motion";
-
-/** Soft pastel glow that trails the cursor — desktop only. */
-export function CursorGlow() {
-  const x = useMotionValue(-400);
-  const y = useMotionValue(-400);
-  const sx = useSpring(x, { stiffness: 120, damping: 22, mass: 0.6 });
-  const sy = useSpring(y, { stiffness: 120, damping: 22, mass: 0.6 });
-
-  useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    const move = (e: MouseEvent) => {
-      x.set(e.clientX - 250);
-      y.set(e.clientY - 250);
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, [x, y]);
-
-  return (
-    <motion.div
-      aria-hidden
-      className="pointer-events-none fixed z-[1] hidden h-[500px] w-[500px] rounded-full md:block"
-      style={{
-        x: sx,
-        y: sy,
-        background:
-          "radial-gradient(circle, rgba(139,135,240,0.10) 0%, rgba(92,171,238,0.06) 40%, transparent 70%)",
-        mixBlendMode: "multiply",
-      }}
-    />
-  );
-}
+import { motion, useScroll, useSpring, useInView, animate } from "framer-motion";
 
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
