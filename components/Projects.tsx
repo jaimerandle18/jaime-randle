@@ -139,6 +139,7 @@ function Poster({
 
 function Coverflow({ onOpen }: { onOpen: (p: Project) => void }) {
   const [active, setActive] = useState(1);
+  const [narrow, setNarrow] = useState(false);
   const startX = useRef<number | null>(null);
 
   const clamp = (n: number) =>
@@ -154,17 +155,32 @@ function Coverflow({ onOpen }: { onOpen: (p: Project) => void }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const on = () => setNarrow(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+
+  const cardW = narrow ? "clamp(210px, 72vw, 300px)" : "clamp(240px, 68vw, 320px)";
+  const cardH = narrow ? "clamp(300px, 98vw, 400px)" : "clamp(320px, 80vw, 410px)";
+  const spread = narrow ? 40 : 56;
+  const zBack = narrow ? 110 : 170;
+  const scaleStep = narrow ? 0.12 : 0.06;
+  const rot = narrow ? 32 : 40;
+
   return (
     <div className="select-none">
       <div
-        className="relative mx-auto h-[clamp(360px,88vw,460px)] [perspective:1600px]"
+        className="relative mx-auto h-[clamp(370px,104vw,470px)] [perspective:1600px]"
         style={{ touchAction: "pan-y" }}
         onPointerDown={(e) => (startX.current = e.clientX)}
         onPointerUp={(e) => {
           if (startX.current == null) return;
           const dx = e.clientX - startX.current;
-          if (dx > 55) go(-1);
-          else if (dx < -55) go(1);
+          if (dx > 45) go(-1);
+          else if (dx < -45) go(1);
           startX.current = null;
         }}
         onPointerLeave={() => (startX.current = null)}
@@ -175,13 +191,13 @@ function Coverflow({ onOpen }: { onOpen: (p: Project) => void }) {
             const abs = Math.abs(delta);
             const isActive = delta === 0;
             const style: React.CSSProperties = {
-              width: "clamp(240px, 68vw, 320px)",
-              height: "clamp(320px, 80vw, 410px)",
+              width: cardW,
+              height: cardH,
               left: "50%",
               top: "50%",
-              marginLeft: "calc(clamp(240px, 68vw, 320px) / -2)",
-              marginTop: "calc(clamp(320px, 80vw, 410px) / -2)",
-              transform: `translateX(${delta * 56}%) translateZ(${-abs * 170}px) rotateY(${-delta * 40}deg) scale(${1 - abs * 0.06})`,
+              marginLeft: `calc(${cardW} / -2)`,
+              marginTop: `calc(${cardH} / -2)`,
+              transform: `translateX(${delta * spread}%) translateZ(${-abs * zBack}px) rotateY(${-delta * rot}deg) scale(${1 - abs * scaleStep})`,
               zIndex: 100 - abs,
               opacity: abs > 1.8 ? 0 : 1,
               transition:

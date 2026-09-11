@@ -96,7 +96,7 @@ export function ThemeReveal() {
     ? `inset(0 0 0 ${w}px)`
     : `inset(0 ${Math.max(0, vw() - w)}px 0 0)`;
 
-  const handleLeft = Math.min(Math.max(w, 0), vw() - 30);
+  const handleLeft = Math.min(Math.max(w, 0), Math.max(0, vw() - 30));
 
   return (
     <>
